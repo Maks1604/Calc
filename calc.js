@@ -2,12 +2,12 @@
 $(() => {
 	$('body').on("click", '[id^=n]', buttonNumber_Click );
 	
-	$("#calc").click( buttonClear_Click );
-	$("#clear").click( buttonCalc_Click );
+	$("#clear").click( buttonClear_Click );
+	$("#calc").click( buttonCalc_Click );
 	
 	$(".oper").click( buttonOper_Click );
 	
-	buttonCalc_Click();
+	buttonClear_Click();
 });
 
 function buttonNumber_Click(args) {
@@ -33,11 +33,27 @@ function selectOper(oper) {
 		case "add" : return "+";
 		case "sub" : return "-";
 		case "mul" : return "*";
-		case "div" : return "รท";
+		case "div" : return "÷";
 	}
 }
 
 function buttonCalc_Click() {
-	let variable = $("#result").text();
-	
+	let result = $("#result");
+	let items = result.text().split(' ');
+	let counter = Number(items[0]);
+		
+	for( let i = 1; i < items.length; i+=2 ) {
+		counter = executeOper(counter, items[i], Number(items[i + 1]));
+	}
+		
+	result.text(counter);
+}
+
+function executeOper( varA, oper, varB ) {
+	switch(oper) {
+		case "+" : return varA + varB;
+		case "-" : return varA - varB;
+		case "*" : return varA * varB;
+		case "÷" : return varA / varB;
+	}
 }
